@@ -19,3 +19,4 @@ to make a classifier. The latter uses PyTorch to implement a neural network.
 ```
 
 ![xgb](pytorch101/xgb.png)
+![nnet](pytorch101/nnet.png)
