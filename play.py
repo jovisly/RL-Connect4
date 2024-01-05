@@ -1,9 +1,7 @@
 import curses
 
-from viz import draw_grid
-
-POSITIONS = {"P1": [], "P2": []}
-
+from viz import draw_game_board, user_prompt_winner, user_prompt_tied
+from utils import is_won, get_available_col_nums, get_row_num, switch_player
 
 
 def main(stdscr):
@@ -11,13 +9,32 @@ def main(stdscr):
     curses.echo()
 
     curses.start_color()
-    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
-    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_YELLOW)
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-    draw_grid(stdscr)
+    curr_player = "P1"
+    positions = {"P1": [], "P2": []}
 
-    drop_to_col = stdscr.getstr().decode(encoding="utf-8")
-    draw_grid(stdscr, drop_to_col=drop_to_col)
+    while True:
+        draw_game_board(stdscr, positions=positions, curr_player=curr_player)
+
+        col_num = int(stdscr.getstr().decode(encoding="utf-8"))
+        row_num = get_row_num(positions, col_num)
+        draw_game_board(
+            stdscr, positions=positions, curr_player=curr_player, drop_to_col=col_num
+        )
+        positions[curr_player].append((row_num, col_num))
+        curr_player = switch_player(curr_player)
+
+        if is_won(positions):
+            user_prompt_winner(stdscr, curr_player)
+            break
+
+        if len(get_available_col_nums(positions)) == 0:
+            user_prompt_tied(stdscr)
+            break
+
+
     stdscr.getch()
 
 
