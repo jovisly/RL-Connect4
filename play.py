@@ -13,6 +13,14 @@ from utils import (
 )
 
 
+def get_col_num(stdscr):
+    input_str = stdscr.getstr().decode(encoding="utf-8")
+    if input_str.isdigit():
+        return int(input_str)
+    else:
+        return input_str
+
+
 def main(stdscr):
     # This allows input to be printed on screen.
     curses.echo()
@@ -27,12 +35,12 @@ def main(stdscr):
     while True:
         draw_game_board(stdscr, positions=positions, curr_player=curr_player)
 
-        col_num = int(stdscr.getstr().decode(encoding="utf-8"))
+        col_num = get_col_num(stdscr)
         available_col_nums = get_available_col_nums(positions)
 
         while col_num not in available_col_nums:
             draw_game_board(stdscr, positions=positions, curr_player=curr_player, invalid_col_num=col_num)
-            col_num = int(stdscr.getstr().decode(encoding="utf-8"))
+            col_num = get_col_num(stdscr)
 
         row_num = get_row_num(positions, col_num)
         draw_game_board(
