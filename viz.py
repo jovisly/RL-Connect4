@@ -78,6 +78,14 @@ def user_prompt_which_col(stdscr, curr_player):
     )
 
 
+def user_prompt_invalid_col_num(stdscr, col_num):
+    stdscr.addstr(
+        (NUM_ROWS + 2) * 2 + PY - 1,
+        0 + PX,
+        f"{col_num} is not a valid column."
+    )
+
+
 def user_prompt_winner(stdscr, curr_player):
     stdscr.addstr(
         (NUM_ROWS + 2) * 2 + PY,
@@ -104,13 +112,15 @@ def user_prompt_tied(stdscr):
     )
 
 
-def draw_game_board(stdscr, positions, curr_player, drop_to_col=None):
+def draw_game_board(stdscr, positions, curr_player, drop_to_col=None, invalid_col_num=None):
     symbol = get_symbol(curr_player)
     color = curses.color_pair(1) if curr_player == "P1" else curses.color_pair(2)
 
     if drop_to_col is None:
         stdscr.clear()
         draw_grid(stdscr, positions)
+        if invalid_col_num is not None:
+            user_prompt_invalid_col_num(stdscr, invalid_col_num)
         user_prompt_which_col(stdscr, curr_player)
         stdscr.refresh()
     else:
