@@ -68,6 +68,24 @@ axis 5 +---+---+---+...
         stdscr.addstr(y + PY, x + PX, get_symbol("P2"), curses.color_pair(2) | curses.A_BOLD)
 
 
+def user_prompt_play_with_computer(stdscr):
+    stdscr.clear()
+    stdscr.addstr(
+        PY,
+        PX,
+        f"Welcome! Do you want to play with the computer? (Y/n): "
+    )
+    stdscr.refresh()
+
+
+def user_prompt_play_with_computer_go_first(stdscr):
+    stdscr.addstr(
+        PY + 1,
+        PX,
+        f"You are playing with a computer. Would you like to go first? (Y/n): "
+    )
+    stdscr.refresh()
+
 
 def user_prompt_which_col(stdscr, curr_player):
     symbol = get_symbol(curr_player)
