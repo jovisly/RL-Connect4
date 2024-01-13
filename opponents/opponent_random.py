@@ -1,6 +1,6 @@
 import random
 from utils import get_available_col_nums
 
-def get_move(positions):
+def get_move(positions, player=None):
     available_col_nums = get_available_col_nums(positions)
     return random.choice(available_col_nums)

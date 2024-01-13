@@ -14,7 +14,8 @@ from utils import (
     switch_player
 )
 
-from opponents.random import get_move as get_random_move
+from opponents.opponent_random import get_move as get_random_move
+from opponents.opponent_dqn import get_move as get_dqn_move
 
 
 def get_col_num(stdscr):
@@ -50,7 +51,10 @@ def main(stdscr):
 
         if computer_player == curr_player:
             # Here we can allow for other modes of computer play.
-            col_num = get_random_move(positions)
+            # Random move.
+            # col_num = get_random_move(positions)
+            # DQN move.
+            col_num = get_dqn_move(positions, curr_player)
         else:
             col_num = get_col_num(stdscr)
             available_col_nums = get_available_col_nums(positions)
