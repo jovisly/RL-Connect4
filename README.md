@@ -3,6 +3,18 @@
 This repository includes several variants of reinforcement learning immplementations
 using pyTorch to play the game of Connect4.
 
+## Quick Notes on Setting Up
+
+You should be using virtual environment.
+
+You'll need pyTorch and other common ML libraries (numpy, matplotlib, etc).
+
+You should also set up `PYTHONPATH` to include the root directory of this repo:
+
+```
+> export PYTHONPATH={YOUR_PATH}:$PYTHONPATH
+```
+
 ## PyTorch 101
 
 First we gain some familiarity with [PyTorch](https://pytorch.org/) by
@@ -38,4 +50,23 @@ Therefore we will use a neural network to approximate the Q table.
 ## DQN
 
 The DQN (Deep Q-Network) algorithm uses a neural network to approximate the Q
-table.
+table:
+
+```
+state --> neural network --> Q values --> action
+```
+
+After each (state, action) pair, we compute TD target and TD error, then update
+the neural network weights using gradient descent.
+
+We need to train the model with an opponent. The opponent should be good enough
+that the model can learn by playing with it, but not the full policy to end up
+with a model that's only good when it plays against itself. So we let the opponent
+use the model but at a lower chance.
+
+The model can be trained with
+
+```
+> cd learners
+> python learner_dqn.py
+```
