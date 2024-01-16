@@ -15,9 +15,9 @@ from utils import NUM_ROWS, NUM_COLS
 from learners.learner_utils import Connect4Game
 
 # Model Parameters.
-FCL_SIZE = 128
+FCL_SIZE = 128 * 4
 # Learning parameters.
-NUM_EPISODES = 500_000
+NUM_EPISODES = 100_000
 GAMMA = 0.9
 EPS_START = 0.9
 EPS_END = 0.05
@@ -26,7 +26,7 @@ LR = 1e-4
 
 
 MODEL_OUTPUT = "../opponents/models/dqn.pt"
-MAKE_PLOTS = False
+MAKE_PLOTS = True
 
 class DQN(nn.Module):
     def __init__(self, fcl_size=FCL_SIZE):

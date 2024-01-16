@@ -1,10 +1,28 @@
 from utils import (
-   NUM_ROWS,
-   NUM_COLS,
-   get_available_col_nums,
-   get_row_num,
-   is_won_for_player
+  NUM_ROWS,
+  NUM_COLS,
+  get_available_col_nums,
+  get_row_num,
+  is_won_for_player
 )
+
+REWARD_ILLEGAL_MOVE = -10
+REWARD_LOSS = -10
+REWARD_WIN = 10
+
+
+def is_won_for_opponent_next_move(positions, player):
+  opponent = "P1" if player == "P2" else "P2"
+  opponent_positions = positions[opponent]
+  col_nums = get_available_col_nums(positions)
+
+  for c in col_nums:
+    new_positions = [p for p in opponent_positions] + [(get_row_num(positions, c), c)]
+    if is_won_for_player(new_positions):
+      return True
+
+  return False
+
 
 
 class Connect4Game:
@@ -32,7 +50,7 @@ class Connect4Game:
     """
     # Illegal move means game ends with penalty.
     if action not in get_available_col_nums(self.positions):
-      return (self.get_state(), -10, True)
+      return (self.get_state(), REWARD_ILLEGAL_MOVE, True)
 
     # Game didn't end, so let's update positions.
     row_num = get_row_num(self.positions, action)
@@ -41,9 +59,14 @@ class Connect4Game:
 
     # Now check if this player has won.
     if is_won_for_player(self.positions[self.player]):
-      return (self.get_state(), 100, True)
+      return (self.get_state(), REWARD_WIN, True)
     else:
-      return (self.get_state(), 0, False)
+      # Check if the other player can win in the next move. But don't end the
+      # game in this case.
+      if is_won_for_opponent_next_move(self.positions, self.player):
+        return (self.get_state(), REWARD_LOSS, False)
+      else:
+        return (self.get_state(), 0, False)
 
 
 def convert_positions_to_board(positions, player):
