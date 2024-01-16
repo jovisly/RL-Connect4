@@ -121,7 +121,7 @@ if __name__ == "__main__":
         policy_loss.backward()
         optimizer.step()
 
-        if episode % 100 == 0:
+        if episode % 1000 == 0:
             print('Episode {}\tAverage Score: {:.2f}'.format(episode, np.mean(scores_deque)))
 
     # Save model.
