@@ -15,6 +15,12 @@ You should also set up `PYTHONPATH` to include the root directory of this repo:
 > export PYTHONPATH={YOUR_PATH}:$PYTHONPATH
 ```
 
+You can save this as a bash script and source it every time you start a new terminal:
+
+```
+> source init.sh
+```
+
 ## PyTorch 101
 
 First we gain some familiarity with [PyTorch](https://pytorch.org/) by
